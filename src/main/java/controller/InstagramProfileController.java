@@ -81,19 +81,19 @@ public class InstagramProfileController {
 		 List<Integer> userPostNumber=sellerDao.instagramUserPostNumber(loginSeller.getEmail());
 		 
 		 List<String> image=new ArrayList();
-		 List<String> imageFrist=new ArrayList<String>();
+		 List<String> imageFirst=new ArrayList<String>();
 		 for(Integer post:userPostNumber) {
 			 image=sellerDao.instagramImages(post);
-			 imageFrist.add(image.get(0));
+			 imageFirst.add(image.get(0));
 			 }
 		 
 		 //밑에 농장 사진 추가
-		 List<SellerFarm>frampost =sellerDao.Sconfirmfarm(loginSeller.getEmail());
-		 List<String> framimage=new ArrayList<String>();
+		 List<SellerFarm>farmpost =sellerDao.Sconfirmfarm(loginSeller.getEmail());
+		 List<String> farmimage=new ArrayList<String>();
 		
-		 if(!frampost.isEmpty()) {
+		 if(!farmpost.isEmpty()) {
 		 for(int i=0;i<1;i++) {
-			 framimage=sellerDao.getfarmImage(frampost.get(i).getFseq(), loginSeller.getEmail());
+			 farmimage=sellerDao.getfarmImage(farmpost.get(i).getFseq(), loginSeller.getEmail());
 			 }
 		 }
 		 	
@@ -102,8 +102,8 @@ public class InstagramProfileController {
 		 model.addAttribute("authInfo", loginSeller);
 		 model.addAttribute("userPostNumber", userPostNumber);
 		 model.addAttribute("user",user);
-		 model.addAttribute("imageFrist",imageFrist);
-		 model.addAttribute("framimage",framimage);
+		 model.addAttribute("imageFrist",imageFirst);
+		 model.addAttribute("framimage",farmimage);
 		 return "seller/InstramProfile";
 		}catch (Exception e) {
 			// TODO: handle exception

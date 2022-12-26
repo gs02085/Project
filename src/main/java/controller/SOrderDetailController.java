@@ -25,40 +25,42 @@ private OrderDaoImpl orderDaoImpl;
 	}
 	
 	@RequestMapping(value = "seller/SOrderDetail")
-	public String form(HttpSession session, Model model,@RequestParam(value="oseq")int oseq) throws Exception { //session 쓰고 싶으면 넣어주면 된다. 여기서 인자 첫번째로 Member을 넣어주었기 때문에 위에 주석 처리한 부분이 필요 없다.
+	public String form(HttpSession session, Model model,@RequestParam(value="oseq")int oseq) 
+			throws Exception { 
 		if (session.getAttribute("authInfo") == null) {
 			return "redirect:Slogin";
 				}
-		
 		
 		Seller seller=(Seller)session.getAttribute("authInfo");
 		List<Order> order=orderDaoImpl.SOrderList(seller.getSseq(),oseq);
 		int payment=orderDaoImpl.SOrderListCount(seller.getSseq(), oseq);
 		
 		model.addAttribute("order", order);
-		model.addAttribute("sum", payment);
+		model.addAttribute("sum", payment); //주문내역의 총합계
 		
 	
 		return "seller/SOrderDetailForm";
 	}
 	
 	@RequestMapping(value = "seller/SOrderResultUpate")
-	public String form4(HttpSession session,@RequestParam(value="result")int result,@RequestParam(value="odseq")ArrayList<Integer> odseqList) throws Exception { //session 쓰고 싶으면 넣어주면 된다. 여기서 인자 첫번째로 Member을 넣어주었기 때문에 위에 주석 처리한 부분이 필요 없다.
+	public String orederResultupdate(HttpSession session,@RequestParam(value="result")int result,
+			@RequestParam(value="odseq")ArrayList<Integer> odseqList)
+			throws Exception { 
 		
 		if (session.getAttribute("authInfo") == null) {
 			return "redirect:Slogin";
 		}
 		
-		
 		Seller seller=(Seller)session.getAttribute("authInfo");
 		
+		//주문번호와 일치하는 상품 배송 변경
 		for(Integer odseq:odseqList) {
 			orderDaoImpl.SOrderResultUpdate(seller.getSseq(), odseq, result);
+			//배송상태가 3일경우 포인트 지급
 			if(result == 3) {
 				getPointCustomer(odseq);
 			}
 		}
-		
 		
 		return "redirect:SOrderList";
 	}
