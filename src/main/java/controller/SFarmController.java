@@ -166,7 +166,7 @@ public class SFarmController {
 		    	 
 		    	 farmpost =sellerDao.Sconfirmfarm(seller.getEmail());
 		    	 samllFseq=sellerDao.selectSmallFseqByAdd(seller.getEmail());
-		    	 farmseller.setFramList(farmpost);
+		    	 farmseller.setFarmList(farmpost);
 		     }
 		    
 		     model.addAttribute("posting2",sellerlist);

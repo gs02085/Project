@@ -42,23 +42,23 @@ public class InstagramProfileController {
 			 
 			 }
 		 
-		 List<SellerFarm>frampost =sellerDao.Sconfirmfarm(email);
-		 List<String> framimage=new ArrayList<String>();
-		 if(!frampost.isEmpty()) {
+		 List<SellerFarm>farmpost =sellerDao.Sconfirmfarm(email);
+		 List<String> farmimage=new ArrayList<String>();
+		 if(!farmpost.isEmpty()) {
 			 for(int i=0;i<1;i++) {
 				 
-				 framimage=sellerDao.getfarmImage(frampost.get(i).getFseq(), email);
+				 farmimage=sellerDao.getfarmImage(farmpost.get(i).getFseq(), email);
 			 }
 		 }
 		 
 		 	
 		 
-		 model.addAttribute("fram", sellerDao.Sconfirmfarm(email));
+		 model.addAttribute("farm", sellerDao.Sconfirmfarm(email));
 		 model.addAttribute("authInfo", loginSeller);
 		 model.addAttribute("userPostNumber", userPostNumber);
 		 model.addAttribute("user",user);
 		 model.addAttribute("imageFrist",imageFrist);
-		 model.addAttribute("framimage",framimage);
+		 model.addAttribute("farmimage",farmimage);
 		 return "seller/InstramProfile";
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -98,12 +98,12 @@ public class InstagramProfileController {
 		 }
 		 	
 		 
-		 model.addAttribute("fram", sellerDao.Sconfirmfarm(loginSeller.getEmail()));
+		 model.addAttribute("farm", sellerDao.Sconfirmfarm(loginSeller.getEmail()));
 		 model.addAttribute("authInfo", loginSeller);
 		 model.addAttribute("userPostNumber", userPostNumber);
 		 model.addAttribute("user",user);
 		 model.addAttribute("imageFrist",imageFirst);
-		 model.addAttribute("framimage",farmimage);
+		 model.addAttribute("farmimage",farmimage);
 		 return "seller/InstramProfile";
 		}catch (Exception e) {
 			// TODO: handle exception

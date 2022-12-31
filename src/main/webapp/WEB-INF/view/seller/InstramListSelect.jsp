@@ -48,7 +48,51 @@ function init(){
 }
  
 init();
+
+
+function reply(Index){
+	
+	//tr의 고유번호 (reply+ index=0)
+	var replytr='replytr'+Index;
+	
+	
+	//replyContent 고유번호
+	var replyContent='replyContent'+Index;
+	
+	//고유 번호로 찾은 content 내용
+	var content=document.getElementById(replyContent).innerHTML;
+	
+	
+	console.log(content);
+	
+	
+	
+	//수정을 바뀔 내용 (수정 창 나오게 하기)
+	var htmls ="";
+	
+	htmls+='<tr>'
+	
+	htmls+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+	
+	htmls+='<input type=text value=" ' + content + ' ">'
+	
+	htmls += '<a href="javascript:void(0)" onclick="fn_updateReply(' + Index + ', ' + Index + ')" style="padding-right:5px">저장</a>';
+
+	htmls += '<a href="javascript:void(0)" onClick="showReplyList()">취소<a>';
+
+	htmls +='</td>'
+	
+	htmls+='</tr>'
+	
+	//찾은 고유번호의 innerHTML를 이용하여 수정	
+	document.getElementById(replytr).innerHTML =htmls;
+}
+	
+	function fn_updateReply(replyList,replyList2){
+		console.log(replyList);
+		
 	}
+	
 </script>
 <style type="text/css">
 .r {
@@ -90,7 +134,8 @@ init();
 						<c:choose>
 							<c:when test="${user.seller_email==authInfo.email}">
 								<div class="postInsert" align=center
-									style="border: 1px solid gray; width: 200px; position: relative; top: 10px; left: 80%; transform: translate(-50%);">
+									style="border: 1px solid gray; width: 200px; position: relative; top: 10px; 
+									left: 80%; transform: translate(-50%);">
 									<a href="InstaPostUpdateForm?postnumber=${posting.postnumber}"
 										style="text-decoration: none; color: gray;"> 게시물 수정</a>/ <a
 										href="InstaPostDelete?postnumber=${posting.postnumber}"
@@ -124,15 +169,18 @@ init();
 								${replycount}개 </span> <input type="hidden" name="postnumber"
 								value="${posting.postnumber}">
 						<table
-							style="width: 80%; border-top: 1px solid #444444; border-collapse: collapse;">
-							<c:forEach var="replyList" items="${replyList}">
+							style="width: 80%; border-top: 1px solid #444444; border-collapse: collapse;" id="replyTable">
+							<c:forEach var="replyList" items="${replyList}" varStatus="status" >
 
-								<tr>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;"><b>${replyList.email}</b></td>
+								<tr id="replytr${status.index}">
+									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyEmail${status.index}">${replyList.email}</b></td>
 
-									<td style="border-bottom: 1px solid #444444; padding: 10px;"><b>${replyList.content}</b></td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;"><b><fmt:formatDate
+									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyContent${status.index}">${replyList.content}</b></td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyDay${status.index}"><fmt:formatDate
 												value="${replyList.reg_date}" pattern="yyyy-MM-dd" /></b></td>
+									<td><input type="hidden" name="currentbook${status.index}"  value="${replyList}"/></td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;"><input type="button" onclick="reply(${status.index})" value="댓글 수정"/></td>
+								<%--  --%>
 								</tr>
 							</c:forEach>
 							<tr>

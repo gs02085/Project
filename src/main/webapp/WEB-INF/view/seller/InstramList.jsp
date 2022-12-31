@@ -204,9 +204,9 @@ init();
 				style="position: relative; left: 4px; top: 3px">
 				<c:choose>
 
-					<c:when test="${posting2[k].getFramList().get(0).url==''}">
+					<c:when test="${posting2[k].getFarmList().get(0).url==''}">
 						<a
-							href="instagramProfile?email=${posting2[k].getFramList().get(0).email}"><img
+							href="instagramProfile?email=${posting2[k].getFarmList().get(0).email}"><img
 							style="border-radius: 30px; height: 50px; width: 50px"
 							src="/webShopping/image/noimage.png" class="tiny_image"
 							align="left"> </a>
@@ -215,9 +215,9 @@ init();
 
 					<c:otherwise>
 						<a
-							href="instagramProfile?email=${posting2[k].getFramList().get(0).email}"><img
+							href="instagramProfile?email=${posting2[k].getFarmList().get(0).email}"><img
 							style="border-radius: 30px; height: 50px; width: 50px"
-							src="/WUE/img/${posting2[k].getFramList().get(i).url}"
+							src="/WUE/img/${posting2[k].getFarmList().get(i).url}"
 							class="tiny_image" align="left"> </a>
 
 					</c:otherwise>
@@ -227,7 +227,7 @@ init();
 			<div class="userid_txt"
 				style="font-family: arial; position: relative; left: 10px; top: 20px">
 				<a
-					href="instagramProfile?email=${posting2[k].getFramList().get(0).email}">${posting2[k].getFramList().get(0).email}</a>
+					href="instagramProfile?email=${posting2[k].getFarmList().get(0).email}">${posting2[k].getFarmList().get(0).email}</a>
 			</div>
 
 
@@ -237,7 +237,7 @@ init();
 				<div class="album" style="overflow: hidden;">
 
 					<c:forEach var="cmt"
-						items="${posting2[k].getFramList().get(0).postimages}">
+						items="${posting2[k].getFarmList().get(0).postimages}">
 
 
 						<div class="images" style="position: relative; top: 30px;">
@@ -252,7 +252,7 @@ init();
 
 			<div class="write" style="margin: 20px">
 
-				${posting2[k].getFramList().get(0).experience_context} <br />
+				${posting2[k].getFarmList().get(0).experience_context} <br />
 
 
 				<table
@@ -270,13 +270,13 @@ init();
 								인원</b></th>
 					</tr>
 					<c:forEach var="i" begin="0"
-						end="${posting2[k].getFramList().size()-1}">
+						end="${posting2[k].getFarmList().size()-1}">
 						<tr>
 							<td style="border-bottom: 1px solid #444444; padding: 10px;">${i+1}</td>
-							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFramList().get(i).experience_date}</td>
-							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFramList().get(i).experience_time}</td>
-							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFramList().get(i).experience_price}</td>
-							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFramList().get(i).experience_number}</td>
+							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFarmList().get(i).experience_date}</td>
+							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFarmList().get(i).experience_time}</td>
+							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFarmList().get(i).experience_price}</td>
+							<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2[k].getFarmList().get(i).experience_number}</td>
 						</tr>
 					</c:forEach>
 					<tr>
@@ -284,7 +284,7 @@ init();
 				</table>
 				<p>
 					<span style="margin-top: 50px;"
-						onclick="location.href='instagramSelectfarm?email=${posting2[k].getFramList().get(0).email}'">
+						onclick="location.href='instagramSelectfarm?email=${posting2[k].getFarmList().get(0).email}'">
 						댓글 ${replycount2[k]}개 모두 보기</span>
 			</div>
 		</div>

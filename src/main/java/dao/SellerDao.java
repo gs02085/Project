@@ -46,9 +46,9 @@ public interface SellerDao {
 		public void SAddinstaRely(@Param("postnumber")int postnumber,@Param("email")String email,@Param("content")String content) throws Exception;
 		public List<SellerInstagram> getPostRely(@Param("postnumber") int postnumber) throws Exception;
 		public void SAddfarmRely(@Param("fseq")int fseq,@Param("email")String email,@Param("content")String content) throws Exception;
-		public List<SellerFarm> getRramRely(@Param("fseq") int fseq) throws Exception;
+		public List<SellerFarm> getfarmReply(@Param("fseq") int fseq) throws Exception;
 		public Integer getPostRelyCount(int postnumber) throws Exception;
-		public Integer getRramRelyCount(int fseq) throws Exception;
+		public Integer getfarmReplyCount(int fseq) throws Exception;
 		public void SPostRelyeDelte(int postnumber) throws Exception;
 		List<Wnotice> noticeList() throws Exception;
 		public int selectSmallFseqByAdd(String email)throws Exception;

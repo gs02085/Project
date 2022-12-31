@@ -450,7 +450,7 @@ public class SellerDaoImpl implements SellerDao {
 	}
 
 	@Override
-	public List<SellerFarm> getRramRely(int fseq) throws Exception {
+	public List<SellerFarm> getfarmReply(int fseq) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 			return sqlSession.getMapper(SellerMapper.class).getRramRely(fseq);
@@ -472,7 +472,7 @@ public class SellerDaoImpl implements SellerDao {
 	}
 
 	@Override
-	public Integer getRramRelyCount(int fseq) throws Exception {
+	public Integer getfarmReplyCount(int fseq) throws Exception {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
 			return sqlSession.getMapper(SellerMapper.class).getRramRelyCount(fseq);

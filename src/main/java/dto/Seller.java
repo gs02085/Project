@@ -26,11 +26,11 @@ public class Seller {
 	private List<SellerFarm> FramList=new ArrayList<SellerFarm>();
 
 
-	public List<SellerFarm> getFramList() {
+	public List<SellerFarm> getFarmList() {
 		return FramList;
 	}
 
-	public void setFramList(List<SellerFarm> framList) {
+	public void setFarmList(List<SellerFarm> framList) {
 		FramList = framList;
 	}
 

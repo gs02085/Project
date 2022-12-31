@@ -57,7 +57,7 @@ text-decoration: none;
 				</c:choose>
 				<div class="txt">
 				<c:choose>
-				<c:when test="${fram=='[]'}">
+				<c:when test="${farm=='[]'}">
 					<span style="position: relative; left: 40%">${userPostNumber.size()}</span><br>
 					<span>게시물</span>
 					</c:when>
@@ -91,7 +91,7 @@ text-decoration: none;
 				<a href="instagramProfileUpdate?seller_email=${user.seller_email}" class="btn btn-default">프로필 수정</a>
 			</div>
 			<c:choose>
-			<c:when test="${fram=='[]'}">
+			<c:when test="${farm=='[]'}">
 			<div class="postInsert"
 				style="border:1px solid gray ;width:200px; position: absolute; top: 60%; left: 50%; transform: translate(-50%);">
 				<a href="farmfist" class="btn btn-default">주말 농장 등록</a>
@@ -136,9 +136,9 @@ text-decoration: none;
 				게시물 </span>
 			<div id="item">
 				<c:choose>
-			   <c:when test="${fram=='[]'}">
+			   <c:when test="${farm=='[]'}">
 					<a href="instagramSelectfarm?email=${user.seller_email}"> <img
-						src="/WUE/img/${framimage[0]}" 
+						src="/WUE/img/${farmimage[0]}" 
 						style="width: 200px; height: 200px; display: run-in; margin-top: 25px; margin-left: 10px;" /></a>
 				<span style="position:absolute;border:2px solid gray;top:26px;left:11px;color:blue;background-color:white ">주말농장</span>
 				</c:when>

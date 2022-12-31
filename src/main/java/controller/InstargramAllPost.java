@@ -55,34 +55,32 @@ public class InstargramAllPost {
 			// 인스타 주말농장 리스트
 
 			List<Seller> sellerlist = sellerDao.SellerList();
-			List<SellerFarm> frampost = new ArrayList<SellerFarm>();
-			List<String> framimage = new ArrayList();
-			SellerInstagram framprofileImage = null;
+			List<SellerFarm> farmpost = new ArrayList<SellerFarm>();
 			List<Integer> replycount2 = new ArrayList<Integer>();
 
 			for (Seller framseller : sellerlist) {
-				frampost = sellerDao.Sconfirmfarm(framseller.getEmail());
-				framseller.setFramList(frampost);
+				farmpost = sellerDao.Sconfirmfarm(framseller.getEmail());
+				framseller.setFarmList(farmpost);
 			}
 
 			int count = 0;
 			for (int i = 0; i < sellerlist.size(); i++) {
 				count = 0;
 				// System.out.println(sellerlist.get(i).getFramList().size());
-				for (int j = 0; j < sellerlist.get(i).getFramList().size(); j++) {
+				for (int j = 0; j < sellerlist.get(i).getFarmList().size(); j++) {
 					// 이미지사진을 넣은 것
-					image = sellerDao.getfarmImage(sellerlist.get(i).getFramList().get(j).getFseq(),
+					image = sellerDao.getfarmImage(sellerlist.get(i).getFarmList().get(j).getFseq(),
 							sellerlist.get(i).getEmail());
-					sellerlist.get(i).getFramList().get(j).setPostimages(image);
+					sellerlist.get(i).getFarmList().get(j).setPostimages(image);
 					// url 정보를 넣은 것
 					profileImage = sellerDao.InstagramProfile(sellerlist.get(i).getEmail());
-					sellerlist.get(i).getFramList().get(j).setUrl(profileImage.getUrl());
+					sellerlist.get(i).getFarmList().get(j).setUrl(profileImage.getUrl());
 					// 주말농장 댓글 갯수넣은것
 
-					if (sellerDao.getRramRelyCount(sellerlist.get(i).getFramList().get(j).getFseq()) == null) {
+					if (sellerDao.getfarmReplyCount(sellerlist.get(i).getFarmList().get(j).getFseq()) == null) {
 						count += 0;
 					} else {
-						count += sellerDao.getRramRelyCount(sellerlist.get(i).getFramList().get(j).getFseq());
+						count += sellerDao.getfarmReplyCount(sellerlist.get(i).getFarmList().get(j).getFseq());
 
 						;
 					}
@@ -159,26 +157,32 @@ public class InstargramAllPost {
 
 			// 인스타 주말농장 리스트
 
-			Seller framseller = new Seller();
-			framseller.setEmail(requset.getParameter("email"));
-			List<SellerFarm> frampost = new ArrayList<SellerFarm>();
+			Seller farmseller = new Seller();
+			//받은 파라미터로 해당 판매자 조회
+			farmseller.setEmail(requset.getParameter("email"));
+			List<SellerFarm> farmpost = new ArrayList<SellerFarm>();
 
-			frampost = sellerDao.Sconfirmfarm(framseller.getEmail());
-			framseller.setFramList(frampost);
+			//판매자를 조회한 후 판매자의 해당 농장을 조회 
+			farmpost = sellerDao.Sconfirmfarm(farmseller.getEmail());
+			//판매자에 해당 농장내역을 넣어줌 
+			farmseller.setFarmList(farmpost);
 			int replycount = 0;
 
 			SellerFarm replyList = new SellerFarm();
-			for (int j = 0; j < framseller.getFramList().size(); j++) {
-				// 이미지사진을 넣은 것
-				image = sellerDao.getfarmImage(framseller.getFramList().get(j).getFseq(), framseller.getEmail());
-				framseller.getFramList().get(j).setPostimages(image);
-				// url 정보를 넣은 것
-				profileImage = sellerDao.InstagramProfile(framseller.getEmail());
-				framseller.getFramList().get(j).setUrl(profileImage.getUrl());
+			for (int j = 0; j < farmseller.getFarmList().size(); j++) {
+				// 이미지사진을 넣은 것(인스타 게시물 사진 리스트)
+				image = sellerDao.getfarmImage(farmseller.getFarmList().get(j).getFseq()
+						, farmseller.getEmail());
+				farmseller.getFarmList().get(j).setPostimages(image);
+				// url 정보를 넣은 것(판매자 주말농장 프로필 사진)
+				profileImage = sellerDao.InstagramProfile(farmseller.getEmail());
+				farmseller.getFarmList().get(j).setUrl(profileImage.getUrl());
 
-				replycount += sellerDao.getRramRelyCount(framseller.getFramList().get(j).getFseq());
+				//댓글 갯수
+				replycount = sellerDao.getfarmReplyCount(farmseller.getFarmList().get(j).getFseq());
 
-				for (SellerFarm si : sellerDao.getRramRely(framseller.getFramList().get(j).getFseq())) {
+				//댓글 상세
+				for (SellerFarm si : sellerDao.getfarmReply(farmseller.getFarmList().get(j).getFseq())) {
 					replyList.replyList(si);
 
 				}
@@ -188,7 +192,7 @@ public class InstargramAllPost {
 			model.addAttribute("replyList", replyList);
 			model.addAttribute("authInfo", loginperson);
 			model.addAttribute("user", user);
-			model.addAttribute("posting2", framseller);
+			model.addAttribute("posting2", farmseller);
 			model.addAttribute("replycount", replycount);
 
 			return "seller/InstramListSelect";

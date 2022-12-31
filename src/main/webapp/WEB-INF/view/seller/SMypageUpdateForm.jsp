@@ -84,7 +84,8 @@
 <tr>
    <td colspan=1 bgcolor=#99ccff align=center>E-mail주소 </td>
    <td>
-      <input type=text id='email' name=email size=12 maxlength=12 readonly="readonly" value="${user.email}" style="width: 150px;">(이메일은 수정 불가능합니다.)
+      <input type=text id='email' name=email size=12 maxlength=12 readonly="readonly"
+       value="${user.email}" style="width: 150px;">(이메일은 수정 불가능합니다.)
 </tr>
 <tr>
    <td colspan=1 bgcolor=#99ccff align=center >이름</td>
@@ -147,7 +148,8 @@
 </form>
 
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" 
+style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
