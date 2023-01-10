@@ -76,7 +76,7 @@ function reply(Index){
 	
 	htmls+='<input type=text value=" ' + content + ' ">'
 	
-	htmls += '<a href="javascript:void(0)" onclick="fn_updateReply(' + Index + ', ' + Index + ')" style="padding-right:5px">저장</a>';
+	htmls += '<a href="javascript:void(0)" id="a" onclick="fn_updateReply(' + Index + ', ' + Index + ')" style="padding-right:5px">저장</a>';
 
 	htmls += '<a href="javascript:void(0)" onClick="showReplyList()">취소<a>';
 
@@ -90,6 +90,47 @@ function reply(Index){
 	
 	function fn_updateReply(replyList,replyList2){
 		console.log(replyList);
+		//window.onload = function() {
+			console.log('시작');
+			var httpRequest;
+			/* button이 클릭되었을때 이벤트 */
+			//document.getElementById("a").addEventListener('click', () => {
+				/* textBox에 작성된 name 데이터를 가져옴 */
+				//var inputName = document.getElementById("replyContent1").innerHTML;
+				var inputName =replyList;
+				/* 입력된 데이터 Json 형식으로 변경 */
+				var reqJson = new Object();
+				reqJson.email = inputName;
+				
+				console.log(reqJson.email);
+				/* 통신에 사용 될 XMLHttpRequest 객체 정의 */
+				httpRequest = new XMLHttpRequest();
+				/* httpRequest의 readyState가 변화했을때 함수 실행 */
+			    httpRequest.onreadystatechange = () => {
+			    	console.log('통신시작');
+			    	/* readyState가 Done이고 응답 값이 200일 때, 받아온 response로 name과 age를 그려줌 */
+				    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+					      if (httpRequest.status === 200) {
+					    	var result = httpRequest.response;
+					        document.getElementById("replyContent1").innerText = result.email;
+					        document.getElementById("replyContent1").innerText = result.content;
+					        alert("a");
+					      } else {
+					        alert('request에 뭔가 문제가 있어요.');
+					      }
+					}
+			    };
+			    /* Post 방식으로 요청 */
+			    httpRequest.open('POST', '/aa', true);
+			    /* Response Type을 Json으로 사전 정의 */
+			    httpRequest.responseType = "json";
+			    /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+			    httpRequest.setRequestHeader('Content-Type', 'application/json');
+			    /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+			    httpRequest.send(JSON.stringify(reqJson));
+				
+	//		});
+		//}
 		
 	}
 	
@@ -179,7 +220,14 @@ function reply(Index){
 									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyDay${status.index}"><fmt:formatDate
 												value="${replyList.reg_date}" pattern="yyyy-MM-dd" /></b></td>
 									<td><input type="hidden" name="currentbook${status.index}"  value="${replyList}"/></td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;"><input type="button" onclick="reply(${status.index})" value="댓글 수정"/></td>
+									<c:choose>
+										<c:when test="${replyList.email==authInfo.email}">		
+											<td style="border-bottom: 1px solid #444444; padding: 10px;"><input type="button" onclick="reply(${status.index})" value="댓글 수정"/></td>
+										</c:when>
+										<c:otherwise>
+											<td style="border-bottom: 1px solid #444444; padding: 10px;">  </td>
+										</c:otherwise>
+									</c:choose>	
 								<%--  --%>
 								</tr>
 							</c:forEach>
@@ -201,18 +249,18 @@ function reply(Index){
 					<div class="title_image"
 						style="margin-left: 10px; padding-top: 10px; position: relative; left: 4px; top: 3px">
 						<c:choose>
-							<c:when test="${posting2.getFramList().get(0).url==''}">
+							<c:when test="${posting2.getFarmList().get(0).url==''}">
 								<a
-									href="instagramProfile?email=${posting2.getFramList().get(0).email}"><img
+									href="instagramProfile?email=${posting2.getFarmList().get(0).email}"><img
 									style="border-radius: 30px; height: 80px; width: 80px;"
 									src="/WUE/img/noimage.png" class="tiny_image" align="left">
 								</a>
 							</c:when>
 							<c:otherwise>
 								<a
-									href="instagramProfile?email=${posting2.getFramList().get(0).email}"><img
+									href="instagramProfile?email=${posting2.getFarmList().get(0).email}"><img
 									style="border-radius: 30px; height: 80px; width: 80px"
-									src="/WUE/img/${posting2.getFramList().get(i).url}"
+									src="/WUE/img/${posting2.getFarmList().get(i).url}"
 									class="tiny_image" align="left"> </a>
 							</c:otherwise>
 						</c:choose>
@@ -221,7 +269,7 @@ function reply(Index){
 					<div class="userid_txt"
 						style="font-family: arial; position: relative; left: 20px; top: 20px">
 						<a
-							href="instagramProfile?email=${posting2.getFramList().get(0).email}">${posting2.getFramList().get(0).email}</a>
+							href="instagramProfile?email=${posting2.getFarmList().get(0).email}">${posting2.getFarmList().get(0).email}</a>
 					</div>
 					<br>
 					<c:choose>
@@ -240,7 +288,7 @@ function reply(Index){
 						<div class="album" style="overflow: hidden;">
 
 							<c:forEach var="cmt"
-								items="${posting2.getFramList().get(0).postimages}">
+								items="${posting2.getFarmList().get(0).postimages}">
 								<div class="images" style="position: relative; top: 30px;">
 									<img src="/WUE/img/${cmt}"
 										style="border-radius: 20px; height: 400px; width: 450px; display: block; margin-left: auto; margin-right: auto; margin-top: 5px;">
@@ -251,8 +299,8 @@ function reply(Index){
 					<div style="height: 20px;"></div>
 					<div class="write" style="margin: 20px">
 						<input type="hidden" name="fseq"
-							value="${posting2.getFramList().get(i).fseq}">
-						${posting2.getFramList().get(0).experience_context}<p>
+							value="${posting2.getFarmList().get(i).fseq}">
+						${posting2.getFarmList().get(0).experience_context}<p>
 						<div style="height: 20px;"></div>
 						<table
 							style="margin-left: 70px; width: 80%; border-top: 1px solid #444444; border-collapse: collapse;">
@@ -268,14 +316,14 @@ function reply(Index){
 										인원</b></th>
 							</tr>
 							<c:forEach var="i" begin="0"
-								end="${posting2.getFramList().size()-1}">
+								end="${posting2.getFarmList().size()-1}">
 
 								<tr>
 									<td style="border-bottom: 1px solid #444444; padding: 10px;">${i+1}</td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFramList().get(i).experience_date}</td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFramList().get(i).experience_time}</td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFramList().get(i).experience_price}</td>
-									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFramList().get(i).experience_number}</td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFarmList().get(i).experience_date}</td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFarmList().get(i).experience_time}</td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFarmList().get(i).experience_price}</td>
+									<td style="border-bottom: 1px solid #444444; padding: 10px;">${posting2.getFarmList().get(i).experience_number}</td>
 								</tr>
 							</c:forEach>
 							<tr>

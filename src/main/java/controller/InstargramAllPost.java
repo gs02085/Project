@@ -1,21 +1,25 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import dao.SellerDaoImpl;
 import dto.Customer;
 import dto.Seller;
 import dto.SellerFarm;
 import dto.SellerInstagram;
+
 
 @Controller
 public class InstargramAllPost {
@@ -280,4 +284,17 @@ public class InstargramAllPost {
 
 	}
 
+	@ResponseBody
+	@PostMapping("/aa")
+	public  HashMap<String,Object>  form6(@RequestBody HashMap<String,Object> A ) {
+		HashMap<String,Object> returnMap =new HashMap<String, Object>();
+		System.out.println("들어왔다앙");
+		System.out.println(A.get("email"));
+		// A.get("email")
+		returnMap.put("email","tt");
+		returnMap.put("content", "a");
+		
+		return returnMap;
+	}
+	
 }
