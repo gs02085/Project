@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 public class SellerInstagram {	
+	private int irseq;
+
 	private int iseq;
 	private int postnumber;
 	private String url;
@@ -20,7 +22,12 @@ public class SellerInstagram {
 
 	private List<String> postimages=new ArrayList<String>();
 
-	
+	public int getIrseq() {
+		return irseq;
+	}
+	public void setIrseq(int irseq) {
+		this.irseq = irseq;
+	}
 	
 	public String getContent() {
 		return content;

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dao.SellerDaoImpl;
@@ -284,11 +285,13 @@ public class InstargramAllPost {
 
 	}
 
+	
+//	@RequestMapping(value = "seller/aa" ,method = {RequestMethod.POST,RequestMethod.GET})
+	@PostMapping("seller/aa")
 	@ResponseBody
-	@PostMapping("/aa")
 	public  HashMap<String,Object>  form6(@RequestBody HashMap<String,Object> A ) {
-		HashMap<String,Object> returnMap =new HashMap<String, Object>();
 		System.out.println("들어왔다앙");
+		HashMap<String,Object> returnMap =new HashMap<String, Object>();
 		System.out.println(A.get("email"));
 		// A.get("email")
 		returnMap.put("email","tt");

@@ -52,6 +52,8 @@ init();
 
 function reply(Index){
 	
+	console.log('a')
+	
 	//tr의 고유번호 (reply+ index=0)
 	var replytr='replytr'+Index;
 	
@@ -60,17 +62,19 @@ function reply(Index){
 	var replyContent='replyContent'+Index;
 	
 	//고유 번호로 찾은 content 내용
-	var content=document.getElementById(replyContent).innerHTML;
+	const content=document.getElementById(replyContent).innerHTML;
 	
+	const email=document.getElementById('replyEmail'+Index).innerHTML;
+		
+	const dday=document.getElementById('replyDay'+Index).innerHTML;	
 	
-	console.log(content);
-	
+
 	
 	
 	//수정을 바뀔 내용 (수정 창 나오게 하기)
 	var htmls ="";
 	
-	htmls+='<tr>'
+	/*htmls+='<tr id='+replytr+'>' */
 	
 	htmls+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
 	
@@ -78,20 +82,21 @@ function reply(Index){
 	
 	htmls += '<a href="javascript:void(0)" id="a" onclick="fn_updateReply(' + Index + ', ' + Index + ')" style="padding-right:5px">저장</a>';
 
-	htmls += '<a href="javascript:void(0)" onClick="showReplyList()">취소<a>';
+	htmls += '<a href="javascript:void(0)" id="b" onclick="showReplyList(' + Index +', \' '+ email +'\', \' '+content+' \' , \''+dday+' \')" style="padding-right:5px">취소</a>';
 
 	htmls +='</td>'
 	
-	htmls+='</tr>'
+	/*htmls+='</tr>' */
 	
 	//찾은 고유번호의 innerHTML를 이용하여 수정	
 	document.getElementById(replytr).innerHTML =htmls;
 }
 	
-	function fn_updateReply(replyList,replyList2){
-		console.log(replyList);
+	//업데이트 (ajax이용)
+	function fn_updateReply(replyList,index){
+		
 		//window.onload = function() {
-			console.log('시작');
+			
 			var httpRequest;
 			/* button이 클릭되었을때 이벤트 */
 			//document.getElementById("a").addEventListener('click', () => {
@@ -112,16 +117,39 @@ function reply(Index){
 				    if (httpRequest.readyState === XMLHttpRequest.DONE) {
 					      if (httpRequest.status === 200) {
 					    	var result = httpRequest.response;
-					        document.getElementById("replyContent1").innerText = result.email;
-					        document.getElementById("replyContent1").innerText = result.content;
-					        alert("a");
+					    	var k= document.getElementById('replytr'+index);
+					    	console.log(result);
+					    	  
+					       var htmltr ="";
+					       
+					    	htmltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+					    	
+					    	htmltr+='<b id="replyEmail'+index+'"> '+result.email+'</b></td>'
+					    	
+					    	htmltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+					    	
+					    	htmltr+='<b id="replyContent'+index+'"> '+result.email+'</b></td>'
+					    	
+					    	htmltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+					  	       
+					    	htmltr+='<b id="replyDay'+index+'"></b></td>'
+					    	
+					    	
+					    	htmltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+					    	
+					    	
+					    	htmltr += '<input type="button" onclick="reply('+index+')" value="댓글 수정"/></td>';
+
+					    	document.getElementById('replytr'+index).innerHTML=htmltr;
+
+					        
 					      } else {
 					        alert('request에 뭔가 문제가 있어요.');
 					      }
 					}
 			    };
 			    /* Post 방식으로 요청 */
-			    httpRequest.open('POST', '/aa', true);
+			    httpRequest.open('POST', 'aa', true);
 			    /* Response Type을 Json으로 사전 정의 */
 			    httpRequest.responseType = "json";
 			    /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
@@ -132,6 +160,32 @@ function reply(Index){
 	//		});
 		//}
 		
+	}
+	
+	function showReplyList(index,email,content,dday){
+		
+		
+			console.log(document.getElementById('replytr1'));
+
+	       var canceltr ="";
+	     
+	       canceltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+	    	
+	       canceltr+='<b id="replyEmail'+index+'"> '+email+'</b></td>'
+	    	
+	       canceltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+	    	
+	       canceltr+='<b id="replyContent'+index+'"> '+content+'</b></td>'
+	       
+	       canceltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+	       
+	       canceltr+='<b id="replyDay'+index+'"> '+dday+'</b></td>'
+	    	
+	       canceltr+='<td style="border-bottom: 1px solid #444444; padding: 10px;" >'
+	    
+	       canceltr+= '<input type="button" onclick="reply('+index+')" value="댓글 수정"/></td>';
+
+	      document.getElementById('replytr'+index).innerHTML=canceltr;
 	}
 	
 </script>
@@ -154,7 +208,7 @@ function reply(Index){
 	<main class="r">
 		<c:choose>
 			<c:when test="${posting!='[]'and posting2==null}">
-				<form action="postAddreply">
+				<form action="postAddreply" method="Post">
 					<div class="title_image"
 						style="position: relative; left: 4px; top: 3px">
 						<c:choose>
@@ -219,7 +273,7 @@ function reply(Index){
 									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyContent${status.index}">${replyList.content}</b></td>
 									<td style="border-bottom: 1px solid #444444; padding: 10px;" ><b id="replyDay${status.index}"><fmt:formatDate
 												value="${replyList.reg_date}" pattern="yyyy-MM-dd" /></b></td>
-									<td><input type="hidden" name="currentbook${status.index}"  value="${replyList}"/></td>
+									<td><input type="hidden" name="currentbook${status.index}"  value="${replyList.irseq}"/></td>
 									<c:choose>
 										<c:when test="${replyList.email==authInfo.email}">		
 											<td style="border-bottom: 1px solid #444444; padding: 10px;"><input type="button" onclick="reply(${status.index})" value="댓글 수정"/></td>
